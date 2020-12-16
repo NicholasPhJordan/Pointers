@@ -15,7 +15,7 @@ private:
 
 private:
     bool m_gameOver;
-    Character m_player1;
-    Character m_player2;
+    Character* m_player1;
+    Character* m_enemy1;
 };
 

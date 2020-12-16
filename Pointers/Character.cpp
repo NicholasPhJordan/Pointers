@@ -12,9 +12,9 @@ Character::Character(float health, float damage)
 	m_damage = damage;
 }
 
-void Character::attack(Character other)
+void Character::attack(Character* other)
 {
-	other.takeDamage(getDamage());
+	other->takeDamage(getDamage());
 }
 
 float Character::takeDamage(float damageAmount)
