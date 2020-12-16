@@ -18,7 +18,7 @@ void Game::run()
 
 void Game::start()
 {
-	std::cout << "Choose your role." << std::endl;
+	std::cout << "Choose your class." << std::endl;
 	std::cout << "1. Knight" << std::endl;
 	std::cout << "2. Rogue" << std::endl;
 	std::cout << "3. Mage" << std::endl;
@@ -27,28 +27,28 @@ void Game::start()
 	{
 		input = 0;
 		std::cin >> input;
-		if (input == 1)
+		if (input == 1)  //makes new character with knight stats
 		{
 			m_player1 = new Character(100, 5);
 			std::cout << "You chose the Knight!" << std::endl;
 			system("pause");
 			system("cls");
 		}
-		else if (input == 2)
+		else if (input == 2)  //makes new character with rogue stats
 		{
 			m_player1 = new Character(90, 10);
 			std::cout << "You chose the Rogue!" << std::endl;
 			system("pause");
 			system("cls");
 		}
-		else if (input == 3)
+		else if (input == 3)  //makes new charcter with mage stats
 		{
 			m_player1 = new Character(80, 15);
 			std::cout << "You chose the Mage!" << std::endl;
 			system("pause");
 			system("cls");
 		}
-		else
+		else  //when you cant count to 3
 		{
 			std::cout << "Wrong choice! Try again!" << std::endl;
 		}
