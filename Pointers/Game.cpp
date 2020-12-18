@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+#include <fstream>
 
 void Game::run()
 {
@@ -18,41 +19,76 @@ void Game::run()
 
 void Game::start()
 {
-	std::cout << "Choose your class." << std::endl;
-	std::cout << "1. Knight" << std::endl;
-	std::cout << "2. Rogue" << std::endl;
-	std::cout << "3. Mage" << std::endl;
-	int input = 0;
-	while (input != 1 && input != 2 && input != 3)
+	int input = 0; //creates an input variable and sets it to zero
+	std::fstream file; //creates instance of file stream
+
+	//checks if player has played before 
+	std::cout << "Have you player before?" << std::endl;
+	std::cout << "1. Yes" << std::endl;
+	std::cout << "2. No" << std::endl;
+	while (input != 1 && input != 2)
 	{
 		input = 0;
 		std::cin >> input;
-		if (input == 1)  //makes new character with knight stats
+		if (input == 1)
 		{
-			m_player1 = new Character(100, 5);
-			std::cout << "You chose the Knight!" << std::endl;
+			m_player1 = new Character(10, 10);
+			m_player1->loadStats();
+			std::cout << m_player1->getHealth() << std::endl;
+			std::cout << m_player1->getDamage() << std::endl;
 			system("pause");
 			system("cls");
 		}
-		else if (input == 2)  //makes new character with rogue stats
+		else if (input == 2)
 		{
-			m_player1 = new Character(90, 10);
-			std::cout << "You chose the Rogue!" << std::endl;
-			system("pause");
-			system("cls");
-		}
-		else if (input == 3)  //makes new charcter with mage stats
-		{
-			m_player1 = new Character(80, 15);
-			std::cout << "You chose the Mage!" << std::endl;
-			system("pause");
-			system("cls");
-		}
-		else  //when you cant count to 3
-		{
-			std::cout << "Wrong choice! Try again!" << std::endl;
+			std::cout << "Choose your class." << std::endl;
+			std::cout << "1. Knight" << std::endl;
+			std::cout << "2. Rogue" << std::endl;
+			std::cout << "3. Mage" << std::endl;
+			input = 0;
+			while (input != 1 && input != 2 && input != 3)
+			{
+				input = 0;
+				std::cin >> input;
+				if (input == 1)  //makes new character with knight stats
+				{
+					m_player1 = new Character(100, 10);
+					std::cout << "You chose the Knight!" << std::endl;
+					system("pause");
+					system("cls");
+				}
+				else if (input == 2)  //makes new character with rogue stats
+				{
+					m_player1 = new Character(90, 15);
+					std::cout << "You chose the Rogue!" << std::endl;
+					system("pause");
+					system("cls");
+				}
+				else if (input == 3)  //makes new charcter with mage stats
+				{
+					m_player1 = new Character(80, 20);
+					std::cout << "You chose the Mage!" << std::endl;
+					system("pause");
+					system("cls");
+					input = 2;
+				}
+				else  //when you cant count to 3
+				{
+					std::cout << "Wrong choice! Try again!" << std::endl;
+				}
+			}
+			//saves player information 
+			file.open("save.txt", std::ios::out);
+			if (!file.is_open())
+			{
+				return setGameOver(true);
+			}
+			file << m_player1->getHealth() << std::endl;
+			file << m_player1->getDamage();
+			file.close();
 		}
 	}
+
 	m_enemy1 = new Character(50, 10);
 }
 

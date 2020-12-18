@@ -1,4 +1,6 @@
 #pragma once
+#include <fstream>
+
 class Character
 {
 public:
@@ -10,6 +12,15 @@ public:
 
 	float getDamage() { return m_damage; }
 	float getHealth() { return m_health; }
+
+	void loadStats() 
+	{
+		std::fstream file;
+		file.open("save.txt", std::ios::in);
+		file >> m_health;
+		file >> m_damage;
+		file.close();
+	}
 
 private:
 	float m_health;
