@@ -34,17 +34,15 @@ void Game::start()
 		{
 			m_player1 = new Character(10, 10);
 			m_player1->loadStats();
-			std::cout << m_player1->getHealth() << std::endl;
-			std::cout << m_player1->getDamage() << std::endl;
+			std::cout << "Health: " << m_player1->getHealth() << std::endl;
+			std::cout << "Damage: " << m_player1->getDamage() << std::endl;
 			system("pause");
 			system("cls");
 		}
 		else if (input == 2)
 		{
-			std::cout << "Choose your class." << std::endl;
-			std::cout << "1. Knight" << std::endl;
-			std::cout << "2. Rogue" << std::endl;
-			std::cout << "3. Mage" << std::endl;
+			std::cout << "Choose your class." << std::endl << "1. Knight" << std::endl << 
+				"2. Rogue" << std::endl << "3. Mage" << std::endl;
 			input = 0;
 			while (input != 1 && input != 2 && input != 3)
 			{
@@ -77,17 +75,17 @@ void Game::start()
 					std::cout << "Wrong choice! Try again!" << std::endl;
 				}
 			}
-			//saves player information 
-			file.open("save.txt", std::ios::out);
-			if (!file.is_open())
-			{
-				return setGameOver(true);
-			}
-			file << m_player1->getHealth() << std::endl;
-			file << m_player1->getDamage();
-			file.close();
 		}
 	}
+	//saves player information 
+	file.open("save.txt", std::ios::out | std::ios::binary | std::ios::app);
+	if (!file.is_open())
+	{
+		return setGameOver(true);
+	}
+	file << m_player1->getHealth() << std::endl;
+	file << m_player1->getDamage() << std::endl << std::endl;
+	file.close();
 
 	m_enemy1 = new Character(50, 10);
 }

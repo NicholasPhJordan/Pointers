@@ -1,5 +1,6 @@
 #pragma once
 #include <fstream>
+#include <iostream>
 
 class Character
 {
@@ -16,10 +17,16 @@ public:
 	void loadStats() 
 	{
 		std::fstream file;
-		file.open("save.txt", std::ios::in);
-		file >> m_health;
-		file >> m_damage;
-		file.close();
+		file.open("save.txt", std::ios::in | std::ios::binary);
+		if (!file.is_open())
+		{
+			while (!file.eof() && file.peek() != EOF)
+			{
+				file.read((char*)&Character(), sizeof(Character));
+				std::cout << "Health: " << m_health << std::endl << "Damage: " << m_damage << std::endl << std::endl;
+			}
+			file.close();
+		}
 	}
 
 private:
