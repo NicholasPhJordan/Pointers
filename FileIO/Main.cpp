@@ -2,55 +2,114 @@
 #include <fstream>
 #include "Character.h"
 
-int main()
+bool binaryFileExample()
 {
-	Character player = Character();
-	player.health = 100;
-	player.damage = 5;
+	//Initialize charcaters 
+	Character sbeve = Character();
+	sbeve.health = 100;
+	sbeve.damage = 12;
+	Character sbeve2 = Character();
+	sbeve2.health = 110;
+	sbeve2.damage = 13;
+	Character sbeve3 = Character();
+	sbeve3.health = 111;
+	sbeve3.damage = 13;
 
-
-	/////Example of saving to a text file/////
-
-	//create instance of file to stream
+	//Create instance of file stream
 	std::fstream file;
 
-	/*search for file with name given in the first argument, 
-	if no file with this name exists, one is created.
-	Then std::ios::out is used to say that we want to output data to that text file*/
-	file.open("save.txt", std::ios::out);
+	//Open wanted file to save to
+	file.open("save2.txt", std::ios::out | std::ios::binary);
 
-	//check if the file isn't open. If so, return to main
+	//checks if the file open before usuing 
 	if (!file.is_open())
-		return 1;
+		return false;
 
-	//writes player stats to text file
-	file << player.health << std::endl;
-	file << player.damage;
+	//writes all characters to file
+	file.write((char*)&sbeve, sizeof(Character));
+	file.write((char*)&sbeve2, sizeof(Character));
+	file.write((char*)&sbeve3, sizeof(Character));
 
-	//close the file when we're done
+	//closes file once writing is complete
 	file.close();
 
+	//create a character to store the loaded data
+	Character sbeve4 = Character();
 
-	/////Example of loading from a text file/////
-	Character player2 = Character();
+	//open file to load from
+	file.open("save2.txt", std::ios::in | std::ios::binary);
 
-	/*Search for ffile that has the given name.
-	The std::ios::in is used to say that we want input from this file.*/
-	file.open("save.txt", std::ios::in);
-
-	//check if the file isn't open. If so, return to main
+	//check to see if the file is open
 	if (!file.is_open())
-		return 1;
+		return false;
 
-	//reads player stats from text file
-	file >> player2.health;
-	file >> player2.damage;
+	//position marker to two characters away from beginning
+	file.seekg(sizeof(Character) * 2, std::ios::beg);
 
-	//close file when done
+	//set character to be the value read from the file
+	file.read((char*)&sbeve4, sizeof(Character));
+
+	//prints results
+	std::cout << sbeve4.health << std::endl;
+	std::cout << sbeve4.damage << std::endl;
+	system("pause");
+
+	//close file
 	file.close();
+	return true;
+}
 
-	std::cout << player2.health << std::endl;
-	std::cout << player2.damage << std::endl;
+int main()
+{
+	binaryFileExample();
+
+	//Character player = Character();
+	//player.health = 100;
+	//player.damage = 5;
+
+
+	///////Example of saving to a text file/////
+
+	////create instance of file to stream
+	//std::fstream file;
+
+	///*search for file with name given in the first argument, 
+	//if no file with this name exists, one is created.
+	//Then std::ios::out is used to say that we want to output data to that text file*/
+	//file.open("save.txt", std::ios::out);
+
+	////check if the file isn't open. If so, return to main
+	//if (!file.is_open())
+	//	return 1;
+
+	////writes player stats to text file
+	//file << player.health << std::endl;
+	//file << player.damage;
+
+	////close the file when we're done
+	//file.close();
+
+
+	///////Example of loading from a text file/////
+	//Character player2 = Character();
+
+	///*Search for ffile that has the given name.
+	//The std::ios::in is used to say that we want input from this file.*/
+	//file.open("save.txt", std::ios::in);
+
+	////check if the file isn't open. If so, return to main
+	//if (!file.is_open())
+	//	return 1;
+
+	////reads player stats from text file
+	//file >> player2.health;
+	//file >> player2.damage;
+
+	////close file when done
+	//file.close();
+
+	//std::cout << player2.health << std::endl;
+	//std::cout << player2.damage << std::endl;
 
 	return 0;
 }
